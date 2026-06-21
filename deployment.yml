@@ -3,7 +3,9 @@ kind: Deployment
 metadata:
   name: nginx-deployment
   labels:
-    apps: nginx 
+    apps: nginx
+  annotations:
+    test-version: "v1.0"
 spec:
   replicas: 1
   selector:
@@ -19,3 +21,10 @@ spec:
           image: nginx
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: nginx-html
